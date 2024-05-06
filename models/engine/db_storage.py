@@ -88,7 +88,7 @@ class DBStorage:
         """
         try:
             if cls is classes[cls]:
-                return self.__session.query(models.classes[cls]).get(id)
+                return self.__session.query(classes[cls]).get(id)
         except BaseException:
             pass
 
@@ -102,11 +102,12 @@ class DBStorage:
         Returns:
             int: The number of instances of the specified class in the database.
         """
+        cls_counter = 0
         if cls is classes[cls]:
             return self.__session.query(cls).count()
         else:
-            cls_counter = 0
-            for clss, member in models.classes.items():
+            for clss, member in classes.items():
                 if clss != "BaseModel":
                     cls_counter += self.__session.query(
-                        models.classes[clss]).count()
+                        classes[clss]).count()
+        return cls_counter
