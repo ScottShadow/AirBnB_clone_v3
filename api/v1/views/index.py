@@ -10,14 +10,17 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
-def stats():
-    """stats route"""
-    all_objs = storage.all()
-    all_objs = len(all_objs)
-    all_cls = []
-    for obj in all_objs:
-        all_cls.append(obj.split('.')[0])
-    all_cls = len(set(all_cls))
-
-    return jsonify({"nb_objects": all_objs, "nb_classes": all_cls})
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+def storage_counts():
+    '''
+        return counts of all classes in storage
+    '''
+    cls_counts = {
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
+    }
+    return jsonify(cls_counts)
