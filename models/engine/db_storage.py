@@ -74,3 +74,39 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls=None, id):
+        """
+        Retrieves an object from the current database session by its class type and ID.
+
+        Args:
+            cls: The class type of the object.
+            id: The ID of the object to retrieve.
+
+        Returns:
+            The object corresponding to the provided class type and ID if found, None otherwise.
+        """
+        try:
+            if cls is classes[cls]:
+                return self.__session.query(models.classes[cls]).get(id)
+        except BaseException:
+            pass
+
+    def count(self, cls=None):
+        """
+        Count the number of instances of a class in the database.
+
+        Parameters:
+            cls (class, optional): The class to count the instances of. Defaults to None.
+
+        Returns:
+            int: The number of instances of the specified class in the database.
+        """
+        if cls is classes[cls]:
+            return self.__session.query(cls).count()
+        else:
+            cls_counter = 0
+            for clss, member in models.classes.items():
+                if clss != "BaseModel":
+                    cls_counter += self.__session.query(
+                        models.classes[clss]).count()
