@@ -103,8 +103,9 @@ class DBStorage:
             int: The number of instances of the specified class in the database.
         """
         cls_counter = 0
-        if cls is classes[cls]:
-            return self.__session.query(cls).count()
+        if cls is not None:
+            objs = self.__session.query(classes[cls]).all()
+            cls_counter = len(objs)
         else:
             for clss, member in classes.items():
                 if clss != "BaseModel":
