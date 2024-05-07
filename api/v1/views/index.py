@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+starts a Flask web application for the AirBnb project
+"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
@@ -12,9 +15,9 @@ def status():
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def storage_counts():
-    '''
+    """
         return counts of all classes in storage
-    '''
+    """
     cls_counts = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
