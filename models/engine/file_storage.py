@@ -69,7 +69,7 @@ class FileStorage:
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
 
-    def get(self, cls=None, id):
+    def get(self, id, cls=None):
         """returns the object based on the class and its ID"""
         if cls is not None and id is not None:
             objects = self.all(cls)
@@ -83,10 +83,3 @@ class FileStorage:
         if cls is not None:
             return len(self.all(cls))
         return len(self.all())
-
-    @app.errorhandler(404)
-    def not_found(error):
-        """
-        return JSON formatted 404 status code response
-        """
-        return make_response(jsonify({'error': 'Not found'}), 404)
