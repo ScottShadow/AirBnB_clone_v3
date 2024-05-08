@@ -78,43 +78,47 @@ class DBStorage:
 
     def get(self, cls=None, id=None):
         """
-        Retrieves an object from the database based on the provided ID
-          and class type.
+        Retrieves an object based on the provided ID and class type from
+          the database.
 
         Parameters:
-            cls (class): The class type of the object.
-            obj_id (str): The ID of the object to retrieve.
+            id: The ID of the object to retrieve.
+            cls: The class type of the object. Defaults to None.
 
         Returns:
-            The object corresponding to the provided ID and class type,
-              or None if not found.
+            The object corresponding to the provided ID and class type
+              if found, None otherwise.
         """
-        if cls and id:
-            obj = self.__session.query(cls).filter_by(id=id).first()
-            return obj
-        return None
+        result = None
+        try:
+            if cls is not None and id is not None:
+                objs = self.__session.query(cls).all()
+                for obj in objs:
+                    if obj.id == id:
+                        result = obj
+        except BaseException:
+            pass
+        return result
 
     def count(self, cls=None):
         """
-        Count the number of instances of a class in the database.
+        Count the number of instances of a given class in the database.
 
-        Args:
-            cls (class): The class to count the instances of. Defaults to None.
+        Parameters:
+            cls (class, optional): The class to count the instances of.
+              Defaults to None.
 
         Returns:
-            int: The number of instances of the specified class in the database.
+            int: The number of instances of the specified class in the
+            database.
         """
-        total_count = 0
-
-        if cls:
-            total_count += self._count_class(models.classes[cls])
+        cls_counter = 0
+        if cls is not None:
+            objs = self.__session.query(cls).all()
+            cls_counter = len(objs)
         else:
-            for cls in classes.values():
-                if cls != BaseModel:
-                    total_count += self._count_class(models.classes[cls])
-
-        return total_count
-
-    def _count_class(self, cls):
-        """Count the number of instances of a class in the database."""
-        return self.__session.query(cls).count()
+            for clss in classes.values():
+                if clss != "BaseModel":
+                    objs = self.__session.query(clss).all()
+                    cls_counter += len(objs)
+        return cls_counter
