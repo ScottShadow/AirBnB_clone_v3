@@ -119,7 +119,7 @@ class DBStorage:
         if cls is not None:
             print(f"Counting instances of {cls}...")
             if cls in classes.values():
-                objs = self.__session.query(models.classes[cls]).all()
+                objs = self.__session.query(cls).all()
                 cls_counter = len(objs)
                 print(f"Found {cls_counter} instances of {cls}.")
         else:
