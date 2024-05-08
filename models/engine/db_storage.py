@@ -67,7 +67,8 @@ class DBStorage:
     def reload(self):
         """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
-        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        sess_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
 
@@ -77,38 +78,49 @@ class DBStorage:
 
     def get(self, id, cls=None):
         """
-        Retrieves an object from the current database session by its class type and ID.
+        Retrieves an object based on the provided ID and class type from
+          the database.
 
-        Args:
-            cls: The class type of the object.
+        Parameters:
             id: The ID of the object to retrieve.
+            cls: The class type of the object. Defaults to None.
 
         Returns:
-            The object corresponding to the provided class type and ID if found, None otherwise.
+            The object corresponding to the provided ID and class type
+              if found, None otherwise.
         """
+
+        result = None
         try:
-            if cls is classes[cls]:
-                return self.__session.query(classes[cls]).get(id)
+            objs = self.__session.query(cls).all()
+            for obj in objs:
+                if obj.id == id:
+                    result = obj
         except BaseException:
             pass
+        return result
 
     def count(self, cls=None):
         """
         Count the number of instances of a class in the database.
 
         Parameters:
-            cls (class, optional): The class to count the instances of. Defaults to None.
+            cls (class, optional): The class to count the instances
+            of. Defaults to None.
 
         Returns:
-            int: The number of instances of the specified class in the database.
+            int: The number of instances of the specified class in the
+              database.
         """
+
         cls_counter = 0
         if cls is not None:
-            objs = self.__session.query(classes[cls]).all()
-            cls_counter = len(objs)
+            if cls in classes.values():
+                objs = self.__session.query(cls).all()
+                cls_counter = len(objs)
         else:
             for clss, member in classes.items():
                 if clss != "BaseModel":
                     cls_counter += self.__session.query(
-                        classes[clss]).count()
+                        member).count()
         return cls_counter
