@@ -114,14 +114,20 @@ class DBStorage:
               database.
         """
 
+        print("Counting instances in the database...")
         cls_counter = 0
         if cls is not None:
+            print(f"Counting instances of {cls}...")
             if cls in classes.values():
                 objs = self.__session.query(models.classes[cls]).all()
                 cls_counter = len(objs)
+                print(f"Found {cls_counter} instances of {cls}.")
         else:
             for clss, member in classes.items():
                 if clss != "BaseModel":
+                    print(f"Counting instances of {clss}...")
                     objs = self.__session.query(models.classes[clss]).all()
                     cls_counter += len(objs)
+                    print(f"Found {len(objs)} instances of {clss}.")
+        print(f"Found a total of {cls_counter} instances.")
         return cls_counter
