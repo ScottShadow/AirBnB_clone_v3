@@ -89,16 +89,23 @@ class DBStorage:
             The object corresponding to the provided ID and class type
               if found, None otherwise.
         """
+        print("cls: {}, id: {}".format(cls, id))
 
         result = None
         try:
             if cls is not None and id is not None:
+                print("Querying database...")
                 objs = self.__session.query(models.classes[cls]).all()
                 for obj in objs:
+                    print("Checking object: {}".format(obj))
                     if obj.id == id:
+                        print("Found object: {}".format(obj))
                         result = obj
-        except BaseException:
+                print("Finished querying database.")
+        except BaseException as e:
+            print("Error occurred: {}".format(e))
             pass
+        print("Result: {}".format(result))
         return result
 
     def count(self, cls=None):
