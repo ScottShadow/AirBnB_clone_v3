@@ -10,7 +10,14 @@ from models import storage
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """status route"""
-    return jsonify({"status": "OK"})
+    data = {
+        "status": "OK"
+    }
+
+    resp = jsonify(data)
+    resp.status_code = 200
+
+    return resp
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
@@ -26,4 +33,7 @@ def storage_counts():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return jsonify(cls_counts)
+    resp = jsonify(cls_counts)
+    resp.status_code = 200
+
+    return resp
