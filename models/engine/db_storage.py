@@ -92,10 +92,11 @@ class DBStorage:
 
         result = None
         try:
-            objs = self.__session.query(cls).all()
-            for obj in objs:
-                if obj.id == id:
-                    result = obj
+            if cls is not None and id is not None:
+                objs = self.__session.query(cls).all()
+                for obj in objs:
+                    if obj.id == id:
+                        result = obj
         except BaseException:
             pass
         return result
