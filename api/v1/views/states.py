@@ -88,7 +88,8 @@ def create_state():
     '''
         Create a new state object.
 
-        This function handles the HTTP POST request to create a new state object
+        This function handles the HTTP POST request to create a new state
+          object
         with the provided data. The request body should be a JSON object with
         the 'name' attribute.
 
@@ -97,7 +98,8 @@ def create_state():
             status code of 201 if the creation was successful.
 
         Raises:
-            BadRequest: If the request body is not a valid JSON or if the 'name'
+            BadRequest: If the request body is not a valid JSON or if the 
+            'name'
                        attribute is missing.
     '''
     # Check if the request body is a valid JSON object
