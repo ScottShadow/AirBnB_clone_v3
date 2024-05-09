@@ -90,13 +90,9 @@ class DBStorage:
               if found, None otherwise.
         """
         result = None
-        if cls is str:
-            print(cls)
-            cls = models.classes[cls]
         try:
             if cls is not None and id is not None:
                 objs = self.__session.query(cls).all()
-                print(objs)
                 for obj in objs:
                     if obj.id == id:
                         result = obj
@@ -116,6 +112,8 @@ class DBStorage:
             int: The number of instances of the specified class in the
             database.
         """
+        print('-----------------------\n\n')
+        print(cls)
         cls_counter = 0
         if cls is not None:
             objs = self.__session.query(cls).all()
