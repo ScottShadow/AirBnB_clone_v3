@@ -136,7 +136,7 @@ def update_state(states_id):
             NotFound: If the state object with the given id is not found.
     '''
     # Check if the request body is a valid JSON object
-    if not request.is_json():
+    if not request.is_json:
         return jsonify({"error": "Not a JSON"}), 400
 
     # Retrieve the state object from storage based on the given id
