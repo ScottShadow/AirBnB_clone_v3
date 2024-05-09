@@ -93,6 +93,7 @@ class DBStorage:
         try:
             if cls is not None and id is not None:
                 objs = self.__session.query(cls).all()
+                print(objs)
                 for obj in objs:
                     if obj.id == id:
                         result = obj
