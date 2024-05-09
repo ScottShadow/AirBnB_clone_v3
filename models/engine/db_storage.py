@@ -90,6 +90,9 @@ class DBStorage:
               if found, None otherwise.
         """
         result = None
+        if cls is str:
+            print(cls)
+            cls = models.classes[cls]
         try:
             if cls is not None and id is not None:
                 objs = self.__session.query(cls).all()
