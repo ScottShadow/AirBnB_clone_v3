@@ -36,7 +36,6 @@ def get_city_by_state(state_id):
     city_list = [c.to_dict() for c in state.cities]
     # Return list of city dictionaries as JSON object
     return jsonify(city_list), 200
-    return jsonify(city_list), 200
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -118,7 +117,7 @@ def create_city(state_id):
             404: If the state with the given state_id does not exist.
     '''
     # Check if the request is a JSON and if it contains the 'name' field.
-    if not request.get_json():
+    if not request.is_json:
         return jsonify({"error": "Not a JSON"}), 400
     elif "name" not in request.get_json():
         return jsonify({"error": "Missing name"}), 400
@@ -166,7 +165,7 @@ def update_city(city_id):
             NotFound: If the city object with the given id is not found.
     '''
     # Check if the request body is a valid JSON object
-    if not request.get_json():
+    if not request.is_json:
         return jsonify({"error": "Not a JSON"}), 400
 
     # Retrieve the city object from storage based on the given id
