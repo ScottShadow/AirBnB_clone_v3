@@ -116,6 +116,10 @@ class DBStorage:
         print(cls)
         cls_counter = 0
         if cls is not None:
+            if isinstance(cls, str):
+                cls = models.classes[cls]
+                print('-----------------------\n\n')
+                print(cls)
             objs = self.__session.query(cls).all()
             cls_counter = len(objs)
         else:
