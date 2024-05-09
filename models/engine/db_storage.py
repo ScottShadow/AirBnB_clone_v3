@@ -92,6 +92,8 @@ class DBStorage:
         result = None
         try:
             if cls is not None and id is not None:
+                if isinstance(cls, str):
+                    cls = models.classes[cls]
                 objs = self.__session.query(cls).all()
                 for obj in objs:
                     if obj.id == id:
