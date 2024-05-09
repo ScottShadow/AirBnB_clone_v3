@@ -40,7 +40,8 @@ def get_state_id(state_id):
     # Retrieve the state object from storage based on the given id
     print(state_id)
     state = storage.get("State", state_id)
-
+    print(state)
+    print("\n\n")
     # If the state object is not found, return a 404 error
     if state is None:
         abort(404)
